@@ -1,266 +1,160 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<title>Название сайта сверху</title>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;900&display=swap" rel="stylesheet">
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>Паутинка</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-        font-family: "Inter", sans-serif;
-        height: 100vh;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #8ec5fc);
-        background-size: 400% 400%;
-        animation: gradient 10s ease infinite;
-        color: white;
-    }
+        body {
+            font-family: "Inter", sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #8ec5fc);
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+        }
 
-    @keyframes gradient {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-    .overlay {
-        text-align: center;
-        max-width: 90%;
-        padding: 24px;
-        background: rgba(0, 0, 0, 0.7);
-        border-radius: 16px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-    }
+        /* Стиль для паутинки */
+        .web {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
 
-    .overlay-title {
-        font-size: 32px;
-        font-weight: 900;
-        margin-bottom: 16px;
-    }
+        .web-line {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            width: 1px;
+            pointer-events: none;
+        }
 
-    .overlay-description {
-        font-size: 18px;
-        font-weight: 400;
-        margin-bottom: 24px;
-        color: rgba(255, 255, 255, 0.8);
-    }
-
-    .overlay-buttons-wrapper {
-        display: flex;
-        justify-content: center;
-        gap: 16px;
-    }
-
-    .overlay-button {
-        font-size: 16px;
-        font-weight: 500;
-        padding: 12px 24px;
-        border-radius: 25px;
-        cursor: pointer;
-        transition: transform 0.2s ease, background-color 0.3s ease;
-    }
-
-    #accept-button {
-        background-color: #4caf50;
-        color: white;
-        border: none;
-    }
-
-    #accept-button:hover {
-        background-color: #388e3c;
-    }
-
-    #decline-button {
-        background-color: transparent;
-        color: #f44336;
-        border: 2px solid #f44336;
-    }
-
-    #decline-button:hover {
-        background-color: #f44336;
-        color: white;
-    }
-
-    .overlay-link {
-        display: block;
-        margin-top: 16px;
-        font-size: 16px;
-        color: #03a9f4;
-        text-decoration: none;
-    }
-
-    .overlay-link:hover {
-        text-decoration: underline;
-    }
-
-    video#video {
-        display: none; /* Скрыть по умолчанию */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        object-fit: cover;
-        z-index: 1000;
-    }
-
-    video::-webkit-media-controls {
-        display: none !important;
-    }
-
-    /* Стили для точек паутинки */
-    .web-dot {
-        position: absolute;
-        width: 6px;
-        height: 6px;
-        background-color: rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-        pointer-events: none;
-    }
-
-    /* Стили для линий паутинки */
-    .web-line {
-        position: absolute;
-        width: 2px;
-        background: rgba(255, 255, 255, 0.6);
-        pointer-events: none;
-        transition: all 0.1s ease;
-    }
-</style>
+        .web-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
-<div class="overlay">
-    <p class="overlay-title">Добрые люди</p>
-    <p class="overlay-description">Пожертвуете ли вы свои деньги нуждающимся детям?</p>
-    <div class="overlay-buttons-wrapper">
-        <div id="accept-button" class="overlay-button">Конечно</div>
-        <div id="decline-button" class="overlay-button">Открыть ЦП</div>
-    </div>
-    <a href="https://www.youtube.com/@funsaransk" target="_blank" class="overlay-link">Пользовательское соглашение</a>
-</div>
-<video id="video" src="media/saransk.mp4" loop></video>
+<div class="web"></div>
 
 <script>
-    const acceptButton = document.getElementById("accept-button");
-    const declineButton = document.getElementById("decline-button");
-    const video = document.getElementById("video");
-    const overlay = document.querySelector(".overlay");
-
-    function playVideo() {
-        overlay.style.display = "none"; // Убираем оверлей
-        video.style.display = "block"; // Показываем видео
-        video.play(); // Запускаем видео
-        const docEl = document.documentElement;
-        if (docEl.requestFullscreen) docEl.requestFullscreen();
-        else if (docEl.mozRequestFullScreen) docEl.mozRequestFullScreen();
-        else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
-        else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
-    }
-
-    acceptButton.addEventListener("click", playVideo);
-    declineButton.addEventListener("click", playVideo);
-
-    // Массив точек и линий
-    const dots = [];
-    const lines = [];
+    const web = document.querySelector('.web');
+    const numDots = 15; // Количество точек для паутинки
+    let dots = [];
+    let lines = [];
 
     // Функция для создания точки
-    function createWebDot() {
-        let dot = document.createElement('div');
+    function createDot(x, y) {
+        const dot = document.createElement('div');
         dot.classList.add('web-dot');
-        document.body.appendChild(dot);
-        dots.push(dot);
-        moveDot(dot);
-    }
-
-    // Функция для движения точки
-    function moveDot(dot) {
-        let x = Math.random() * window.innerWidth;
-        let y = Math.random() * window.innerHeight;
         dot.style.left = `${x}px`;
         dot.style.top = `${y}px`;
-
-        // Двигаем точку по экрану с плавным переходом
-        setInterval(() => {
-            x += (Math.random() - 0.5) * 2; // Слегка изменяем координаты
-            y += (Math.random() - 0.5) * 2;
-
-            if (x < 0) x = 0;
-            if (x > window.innerWidth) x = window.innerWidth;
-            if (y < 0) y = 0;
-            if (y > window.innerHeight) y = window.innerHeight;
-
-            dot.style.left = `${x}px`;
-            dot.style.top = `${y}px`;
-
-        }, 50);
+        web.appendChild(dot);
+        dots.push({ element: dot, x, y });
     }
 
-    // Функция для создания линии между точками
-    function createWebLine(dot1, dot2) {
-        let line = document.createElement('div');
+    // Функция для создания линии
+    function createLine(x1, y1, x2, y2) {
+        const line = document.createElement('div');
         line.classList.add('web-line');
-        document.body.appendChild(line);
-        lines.push({ line, dot1, dot2 });
+        web.appendChild(line);
+        lines.push({ element: line, x1, y1, x2, y2 });
     }
 
-    // Функция для обновления всех линий
+    // Функция для обновления позиции линий
     function updateLines() {
-        lines.forEach(({ line, dot1, dot2 }) => {
-            let x1 = dot1.offsetLeft + dot1.offsetWidth / 2;
-            let y1 = dot1.offsetTop + dot1.offsetHeight / 2;
-            let x2 = dot2.offsetLeft + dot2.offsetWidth / 2;
-            let y2 = dot2.offsetTop + dot2.offsetHeight / 2;
+        lines.forEach(line => {
+            const dx = line.x2 - line.x1;
+            const dy = line.y2 - line.y1;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
 
-            let distX = x2 - x1;
-            let distY = y2 - y1;
-            let distance = Math.sqrt(distX * distX + distY * distY);
-
-            let angle = Math.atan2(distY, distX) * 180 / Math.PI;
-
-            line.style.width = `${distance}px`;
-            line.style.transform = `rotate(${angle}deg)`;
-            line.style.left = `${x1}px`;
-            line.style.top = `${y1}px`;
+            line.element.style.width = `${distance}px`;
+            line.element.style.transform = `rotate(${angle}deg)`;
+            line.element.style.left = `${line.x1}px`;
+            line.element.style.top = `${line.y1}px`;
         });
     }
 
-    // Создаем точки и соединяем их
-    for (let i = 0; i < 20; i++) {
-        createWebDot();
+    // Функция для анимации точек
+    function animateDots() {
+        dots.forEach(dot => {
+            dot.x += (Math.random() - 0.5) * 2; // Сдвиг по оси X
+            dot.y += (Math.random() - 0.5) * 2; // Сдвиг по оси Y
+
+            if (dot.x < 0) dot.x = 0;
+            if (dot.x > window.innerWidth) dot.x = window.innerWidth;
+            if (dot.y < 0) dot.y = 0;
+            if (dot.y > window.innerHeight) dot.y = window.innerHeight;
+
+            dot.element.style.left = `${dot.x}px`;
+            dot.element.style.top = `${dot.y}px`;
+        });
     }
 
-    // Связываем точки линиями
-    setInterval(() => {
-        for (let i = 0; i < dots.length - 1; i++) {
-            createWebLine(dots[i], dots[i + 1]);
-        }
+    // Функция для создания линий между точками
+    function connectDots() {
+        lines.forEach(line => {
+            line.x1 = dots[0].x;
+            line.y1 = dots[0].y;
+            line.x2 = dots[1].x;
+            line.y2 = dots[1].y;
+        });
         updateLines();
-    }, 100);
+    }
 
-    // Следим за движением мыши и подтягиваем линии к курсору
-    document.addEventListener('mousemove', (e) => {
-        lines.forEach(({ line, dot1, dot2 }) => {
-            const dist1 = Math.sqrt(Math.pow(dot1.offsetLeft + dot1.offsetWidth / 2 - e.pageX, 2) + Math.pow(dot1.offsetTop + dot1.offsetHeight / 2 - e.pageY, 2));
-            const dist2 = Math.sqrt(Math.pow(dot2.offsetLeft + dot2.offsetWidth / 2 - e.pageX, 2) + Math.pow(dot2.offsetTop + dot2.offsetHeight / 2 - e.pageY, 2));
+    // Инициализация точек
+    for (let i = 0; i < numDots; i++) {
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        createDot(x, y);
+    }
 
-            if (dist1 < 150 || dist2 < 150) {
-                line.style.opacity = 1;
+    // Соединяем точки линиями
+    for (let i = 0; i < numDots - 1; i++) {
+        createLine(dots[i].x, dots[i].y, dots[i + 1].x, dots[i + 1].y);
+    }
+
+    // Анимация
+    function animate() {
+        animateDots();
+        connectDots();
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Реакция на курсор
+    document.addEventListener('mousemove', (event) => {
+        const cursorX = event.pageX;
+        const cursorY = event.pageY;
+
+        dots.forEach(dot => {
+            const dist = Math.sqrt((dot.x - cursorX) ** 2 + (dot.y - cursorY) ** 2);
+            if (dist < 100) {
+                dot.element.style.backgroundColor = 'rgba(255, 255, 255, 1)';
             } else {
-                line.style.opacity = 0.3;
+                dot.element.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
             }
         });
     });
-
 </script>
 </body>
 </html>
