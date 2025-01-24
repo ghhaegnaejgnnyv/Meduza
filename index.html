@@ -102,8 +102,15 @@
         text-decoration: underline;
     }
 
-    .hidden-video {
-        display: none; /* Полностью скрыто видео */
+    video#video {
+        display: none; /* Скрыть по умолчанию */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: 1000;
     }
 </style>
 </head>
@@ -117,13 +124,24 @@
     </div>
     <a href="https://www.youtube.com/@funsaransk" target="_blank" class="overlay-link">Пользовательское соглашение</a>
 </div>
-<video id="video" class="hidden-video" src="media/saransk.mp4" loop></video>
+<video id="video" src="media/saransk.mp4" loop></video>
 <script>
     const acceptButton = document.getElementById("accept-button");
     const declineButton = document.getElementById("decline-button");
+    const video = document.getElementById("video");
 
-    acceptButton.addEventListener("click", () => alert("Спасибо за поддержку!"));
-    declineButton.addEventListener("click", () => alert("Вы выбрали отказаться."));
+    function playVideo() {
+        video.style.display = "block"; // Показать видео
+        video.play();
+        const docEl = document.documentElement;
+        if (docEl.requestFullscreen) docEl.requestFullscreen();
+        else if (docEl.mozRequestFullScreen) docEl.mozRequestFullScreen();
+        else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+        else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
+    }
+
+    acceptButton.addEventListener("click", playVideo);
+    declineButton.addEventListener("click", playVideo);
 </script>
 </body>
 </html>
