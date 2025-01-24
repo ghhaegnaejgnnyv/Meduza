@@ -117,16 +117,23 @@
         display: none !important;
     }
 
-    /* Стили для паутинки */
+    /* Стили для точек паутинки */
+    .web-dot {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    /* Стили для линий паутинки */
     .web-line {
         position: absolute;
         width: 2px;
-        height: 100px;
         background: rgba(255, 255, 255, 0.6);
-        border-radius: 2px;
-        opacity: 0;
         pointer-events: none;
-        transform-origin: top center;
+        transition: all 0.1s ease;
     }
 </style>
 </head>
@@ -162,64 +169,97 @@
     acceptButton.addEventListener("click", playVideo);
     declineButton.addEventListener("click", playVideo);
 
-    // Массив для хранения линий паутинки
-    let lines = [];
+    // Массив точек и линий
+    const dots = [];
+    const lines = [];
 
-    // Функция для создания случайных линий паутинки
-    function createWebLine() {
+    // Функция для создания точки
+    function createWebDot() {
+        let dot = document.createElement('div');
+        dot.classList.add('web-dot');
+        document.body.appendChild(dot);
+        dots.push(dot);
+        moveDot(dot);
+    }
+
+    // Функция для движения точки
+    function moveDot(dot) {
+        let x = Math.random() * window.innerWidth;
+        let y = Math.random() * window.innerHeight;
+        dot.style.left = `${x}px`;
+        dot.style.top = `${y}px`;
+
+        // Двигаем точку по экрану с плавным переходом
+        setInterval(() => {
+            x += (Math.random() - 0.5) * 2; // Слегка изменяем координаты
+            y += (Math.random() - 0.5) * 2;
+
+            if (x < 0) x = 0;
+            if (x > window.innerWidth) x = window.innerWidth;
+            if (y < 0) y = 0;
+            if (y > window.innerHeight) y = window.innerHeight;
+
+            dot.style.left = `${x}px`;
+            dot.style.top = `${y}px`;
+
+        }, 50);
+    }
+
+    // Функция для создания линии между точками
+    function createWebLine(dot1, dot2) {
         let line = document.createElement('div');
         line.classList.add('web-line');
         document.body.appendChild(line);
-        lines.push(line);
+        lines.push({ line, dot1, dot2 });
     }
 
-    // Функция для обновления позиций линий
-    function updateWebLines() {
-        lines.forEach(line => {
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * window.innerHeight;
+    // Функция для обновления всех линий
+    function updateLines() {
+        lines.forEach(({ line, dot1, dot2 }) => {
+            let x1 = dot1.offsetLeft + dot1.offsetWidth / 2;
+            let y1 = dot1.offsetTop + dot1.offsetHeight / 2;
+            let x2 = dot2.offsetLeft + dot2.offsetWidth / 2;
+            let y2 = dot2.offsetTop + dot2.offsetHeight / 2;
 
-            // Обновляем позицию и поворот
-            const angle = Math.random() * 360;
-            const length = Math.random() * 150 + 50;
+            let distX = x2 - x1;
+            let distY = y2 - y1;
+            let distance = Math.sqrt(distX * distX + distY * distY);
 
-            line.style.left = `${x}px`;
-            line.style.top = `${y}px`;
-            line.style.height = `${length}px`;
+            let angle = Math.atan2(distY, distX) * 180 / Math.PI;
+
+            line.style.width = `${distance}px`;
             line.style.transform = `rotate(${angle}deg)`;
-
-            line.style.opacity = 1;  // Делаем линии видимыми
+            line.style.left = `${x1}px`;
+            line.style.top = `${y1}px`;
         });
     }
 
-    // Функция для того, чтобы линии двигались к курсору
-    function moveLinesTowardsCursor(e) {
-        lines.forEach(line => {
-            const rect = line.getBoundingClientRect();
-            const lineCenterX = rect.left + rect.width / 2;
-            const lineCenterY = rect.top + rect.height / 2;
-            const distX = e.pageX - lineCenterX;
-            const distY = e.pageY - lineCenterY;
-            const distance = Math.sqrt(distX * distX + distY * distY);
+    // Создаем точки и соединяем их
+    for (let i = 0; i < 20; i++) {
+        createWebDot();
+    }
 
-            if (distance < 150) {
-                line.style.opacity = 1; // Активируем линии при близости курсора
+    // Связываем точки линиями
+    setInterval(() => {
+        for (let i = 0; i < dots.length - 1; i++) {
+            createWebLine(dots[i], dots[i + 1]);
+        }
+        updateLines();
+    }, 100);
+
+    // Следим за движением мыши и подтягиваем линии к курсору
+    document.addEventListener('mousemove', (e) => {
+        lines.forEach(({ line, dot1, dot2 }) => {
+            const dist1 = Math.sqrt(Math.pow(dot1.offsetLeft + dot1.offsetWidth / 2 - e.pageX, 2) + Math.pow(dot1.offsetTop + dot1.offsetHeight / 2 - e.pageY, 2));
+            const dist2 = Math.sqrt(Math.pow(dot2.offsetLeft + dot2.offsetWidth / 2 - e.pageX, 2) + Math.pow(dot2.offsetTop + dot2.offsetHeight / 2 - e.pageY, 2));
+
+            if (dist1 < 150 || dist2 < 150) {
+                line.style.opacity = 1;
             } else {
-                line.style.opacity = 0.2; // Восстанавливаем линию до скрытого состояния
+                line.style.opacity = 0.3;
             }
         });
-    }
-
-    // Создаем несколько линий паутинки
-    for (let i = 0; i < 20; i++) {
-        createWebLine();
-    }
-
-    // Обновляем паутинку и анимацию
-    setInterval(updateWebLines, 1000);
-    
-    // Обработчик движения мыши
-    document.addEventListener('mousemove', moveLinesTowardsCursor);
+    });
 
 </script>
 </body>
