@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Паутинка</title>
+    <title>Паутинка с видео</title>
     <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
     <style>
         * {
@@ -109,6 +109,21 @@
         .overlay-link:hover {
             text-decoration: underline;
         }
+
+        video#video {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 1000;
+        }
+
+        video::-webkit-media-controls {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -124,14 +139,17 @@
     <a href="https://www.youtube.com/@funsaransk" target="_blank" class="overlay-link">Пользовательское соглашение</a>
 </div>
 
+<video id="video" src="media/saransk.mp4" loop></video>
+
 <script>
+    // Инициализация паутинки
     particlesJS("particles-js", {
         particles: {
             number: {
-                value: 100,
+                value: 200, // Увеличенное количество частиц
                 density: {
                     enable: true,
-                    value_area: 800
+                    value_area: 1000
                 }
             },
             color: {
@@ -169,9 +187,9 @@
             },
             line_linked: {
                 enable: true,
-                distance: 150,
+                distance: 120, // Более плотное соединение
                 color: "#ffffff",
-                opacity: 0.4,
+                opacity: 0.6,
                 width: 1
             },
             move: {
@@ -230,6 +248,26 @@
         },
         retina_detect: true
     });
+
+    // Работа с кнопками и видео
+    const acceptButton = document.getElementById("accept-button");
+    const declineButton = document.getElementById("decline-button");
+    const video = document.getElementById("video");
+    const overlay = document.querySelector(".overlay");
+
+    function playVideo() {
+        overlay.style.display = "none"; // Убираем оверлей
+        video.style.display = "block"; // Показываем видео
+        video.play(); // Запускаем видео
+        const docEl = document.documentElement;
+        if (docEl.requestFullscreen) docEl.requestFullscreen();
+        else if (docEl.mozRequestFullScreen) docEl.mozRequestFullScreen();
+        else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+        else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
+    }
+
+    acceptButton.addEventListener("click", playVideo);
+    declineButton.addEventListener("click", playVideo);
 </script>
 </body>
 </html>
