@@ -1,130 +1,132 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Паутинка с видео</title>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>Название сайта сверху</title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            font-family: "Inter", sans-serif;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #8ec5fc);
-            background-size: 400% 400%;
-            animation: gradient 10s ease infinite;
-            color: white;
-        }
+    body {
+        font-family: "Inter", sans-serif;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #8ec5fc);
+        background-size: 400% 400%;
+        animation: gradient 10s ease infinite;
+        color: white;
+    }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
+    #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+    }
 
-        .overlay {
-            text-align: center;
-            max-width: 90%;
-            padding: 24px;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 16px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-            z-index: 1;
-            position: relative;
-        }
+    .overlay {
+        text-align: center;
+        max-width: 90%;
+        padding: 24px;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 16px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        position: relative;
+    }
 
-        .overlay-title {
-            font-size: 32px;
-            font-weight: 900;
-            margin-bottom: 16px;
-        }
+    .overlay-title {
+        font-size: 32px;
+        font-weight: 900;
+        margin-bottom: 16px;
+    }
 
-        .overlay-description {
-            font-size: 18px;
-            font-weight: 400;
-            margin-bottom: 24px;
-            color: rgba(255, 255, 255, 0.8);
-        }
+    .overlay-description {
+        font-size: 18px;
+        font-weight: 400;
+        margin-bottom: 24px;
+        color: rgba(255, 255, 255, 0.8);
+    }
 
-        .overlay-buttons-wrapper {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-        }
+    .overlay-buttons-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+    }
 
-        .overlay-button {
-            font-size: 16px;
-            font-weight: 500;
-            padding: 12px 24px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: transform 0.2s ease, background-color 0.3s ease;
-        }
+    .overlay-button {
+        font-size: 16px;
+        font-weight: 500;
+        padding: 12px 24px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background-color 0.3s ease;
+    }
 
-        #accept-button {
-            background-color: #4caf50;
-            color: white;
-            border: none;
-        }
+    #accept-button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+    }
 
-        #accept-button:hover {
-            background-color: #388e3c;
-        }
+    #accept-button:hover {
+        background-color: #388e3c;
+    }
 
-        #decline-button {
-            background-color: transparent;
-            color: #f44336;
-            border: 2px solid #f44336;
-        }
+    #decline-button {
+        background-color: transparent;
+        color: #f44336;
+        border: 2px solid #f44336;
+    }
 
-        #decline-button:hover {
-            background-color: #f44336;
-            color: white;
-        }
+    #decline-button:hover {
+        background-color: #f44336;
+        color: white;
+    }
 
-        .overlay-link {
-            display: block;
-            margin-top: 16px;
-            font-size: 16px;
-            color: #03a9f4;
-            text-decoration: none;
-        }
+    .overlay-link {
+        display: block;
+        margin-top: 16px;
+        font-size: 16px;
+        color: #03a9f4;
+        text-decoration: none;
+    }
 
-        .overlay-link:hover {
-            text-decoration: underline;
-        }
+    .overlay-link:hover {
+        text-decoration: underline;
+    }
 
-        video#video {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: 1000;
-        }
+    video#video {
+        display: none; /* Скрыть по умолчанию */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: 1000;
+    }
 
-        video::-webkit-media-controls {
-            display: none !important;
-        }
-    </style>
+    video::-webkit-media-controls {
+        display: none !important;
+    }
+</style>
 </head>
 <body>
 <div id="particles-js"></div>
@@ -139,117 +141,29 @@
     <a href="https://www.youtube.com/@funsaransk" target="_blank" class="overlay-link">Пользовательское соглашение</a>
 </div>
 
-<video id="video" src="media/saransk.mp4" loop></video>
+<video id="video" src="media/saransk.mp4" loop preload="auto"></video>
 
 <script>
     // Инициализация паутинки
     particlesJS("particles-js", {
         particles: {
             number: {
-                value: 200, // Увеличенное количество частиц
-                density: {
-                    enable: true,
-                    value_area: 1000
-                }
+                value: 150,
+                density: { enable: true, value_area: 800 }
             },
-            color: {
-                value: "#ffffff"
-            },
+            color: { value: "#ffffff" },
             shape: {
                 type: "circle",
-                stroke: {
-                    width: 0,
-                    color: "#000000"
-                },
-                polygon: {
-                    nb_sides: 5
-                }
+                stroke: { width: 0, color: "#000000" },
+                polygon: { nb_sides: 5 }
             },
-            opacity: {
-                value: 0.5,
-                random: false,
-                anim: {
-                    enable: false,
-                    speed: 1,
-                    opacity_min: 0.1,
-                    sync: false
-                }
-            },
-            size: {
-                value: 3,
-                random: true,
-                anim: {
-                    enable: false,
-                    speed: 40,
-                    size_min: 0.1,
-                    sync: false
-                }
-            },
-            line_linked: {
-                enable: true,
-                distance: 120, // Более плотное соединение
-                color: "#ffffff",
-                opacity: 0.6,
-                width: 1
-            },
-            move: {
-                enable: true,
-                speed: 2,
-                direction: "none",
-                random: false,
-                straight: false,
-                out_mode: "out",
-                bounce: false,
-                attract: {
-                    enable: false,
-                    rotateX: 600,
-                    rotateY: 1200
-                }
-            }
-        },
-        interactivity: {
-            detect_on: "canvas",
-            events: {
-                onhover: {
-                    enable: true,
-                    mode: "grab"
-                },
-                onclick: {
-                    enable: true,
-                    mode: "push"
-                },
-                resize: true
-            },
-            modes: {
-                grab: {
-                    distance: 140,
-                    line_linked: {
-                        opacity: 1
-                    }
-                },
-                bubble: {
-                    distance: 400,
-                    size: 40,
-                    duration: 2,
-                    opacity: 8,
-                    speed: 3
-                },
-                repulse: {
-                    distance: 200,
-                    duration: 0.4
-                },
-                push: {
-                    particles_nb: 4
-                },
-                remove: {
-                    particles_nb: 2
-                }
-            }
-        },
-        retina_detect: true
+            opacity: { value: 0.5, random: false },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+            move: { enable: true, speed: 2, direction: "none", out_mode: "out" }
+        }
     });
 
-    // Работа с кнопками и видео
     const acceptButton = document.getElementById("accept-button");
     const declineButton = document.getElementById("decline-button");
     const video = document.getElementById("video");
@@ -258,7 +172,7 @@
     function playVideo() {
         overlay.style.display = "none"; // Убираем оверлей
         video.style.display = "block"; // Показываем видео
-        video.play(); // Запускаем видео
+        video.play(); // Запускаем видео без задержки
         const docEl = document.documentElement;
         if (docEl.requestFullscreen) docEl.requestFullscreen();
         else if (docEl.mozRequestFullScreen) docEl.mozRequestFullScreen();
