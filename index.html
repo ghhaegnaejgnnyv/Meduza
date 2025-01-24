@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<title>Видео с паутинкой</title>
+<title>Название сайта сверху</title>
 <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;900&display=swap" rel="stylesheet">
 <style>
     * {
         margin: 0;
@@ -23,6 +23,7 @@
         background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #8ec5fc);
         background-size: 400% 400%;
         animation: gradient 10s ease infinite;
+        color: white;
     }
 
     @keyframes gradient {
@@ -38,14 +39,12 @@
         background: rgba(0, 0, 0, 0.7);
         border-radius: 16px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-        z-index: 10;
     }
 
     .overlay-title {
         font-size: 32px;
         font-weight: 900;
         margin-bottom: 16px;
-        color: white;
     }
 
     .overlay-description {
@@ -104,7 +103,7 @@
     }
 
     video#video {
-        display: none;
+        display: none; /* Скрыть по умолчанию */
         position: fixed;
         top: 0;
         left: 0;
@@ -114,20 +113,33 @@
         z-index: 1000;
     }
 
-    canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+    video::-webkit-media-controls {
+        display: none !important;
+    }
+
+    /* Стили для паутины */
+    .web {
+        position: absolute;
         pointer-events: none;
-        z-index: 9;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        animation: expand 0.5s ease-out forwards;
+        transform: scale(0);
+    }
+
+    @keyframes expand {
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
     }
 </style>
 </head>
 <body>
-<canvas id="canvas"></canvas>
-<div class="overlay" id="overlay">
+<div class="overlay">
     <p class="overlay-title">Добрые люди</p>
     <p class="overlay-description">Пожертвуете ли вы свои деньги нуждающимся детям?</p>
     <div class="overlay-buttons-wrapper">
@@ -136,60 +148,40 @@
     </div>
     <a href="https://www.youtube.com/@funsaransk" target="_blank" class="overlay-link">Пользовательское соглашение</a>
 </div>
-<video id="video" src="media/saransk.mp4" loop autoplay muted></video>
+<video id="video" src="media/saransk.mp4" loop></video>
+
 <script>
-    const overlay = document.getElementById("overlay");
-    const video = document.getElementById("video");
     const acceptButton = document.getElementById("accept-button");
     const declineButton = document.getElementById("decline-button");
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    let width, height, mouseX, mouseY;
+    const video = document.getElementById("video");
+    const overlay = document.querySelector(".overlay");
 
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        width = canvas.width;
-        height = canvas.height;
+    function playVideo() {
+        overlay.style.display = "none"; // Убираем оверлей
+        video.style.display = "block"; // Показываем видео
+        video.play(); // Запускаем видео
+        const docEl = document.documentElement;
+        if (docEl.requestFullscreen) docEl.requestFullscreen();
+        else if (docEl.mozRequestFullScreen) docEl.mozRequestFullScreen();
+        else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+        else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
     }
 
-    function drawSpiderWeb() {
-        ctx.clearRect(0, 0, width, height);
-        if (mouseX && mouseY) {
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.moveTo(mouseX, mouseY);
-            for (let i = 0; i < 360; i += 15) {
-                const angle = (i * Math.PI) / 180;
-                const x = mouseX + Math.cos(angle) * 50;
-                const y = mouseY + Math.sin(angle) * 50;
-                ctx.lineTo(x, y);
-            }
-            ctx.closePath();
-            ctx.stroke();
+    acceptButton.addEventListener("click", playVideo);
+    declineButton.addEventListener("click", playVideo);
+
+    // Код для создания и движения паутинки
+    let web = null;
+
+    document.addEventListener('mousemove', (e) => {
+        if (!web) {
+            web = document.createElement('div');
+            web.classList.add('web');
+            document.body.appendChild(web);
         }
-        requestAnimationFrame(drawSpiderWeb);
-    }
-
-    function showVideo() {
-        overlay.style.display = "none";
-        video.style.display = "block";
-        video.play();
-        if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
-    }
-
-    acceptButton.addEventListener("click", showVideo);
-    declineButton.addEventListener("click", showVideo);
-
-    window.addEventListener("mousemove", (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
+        web.style.left = `${e.pageX - web.offsetWidth / 2}px`;
+        web.style.top = `${e.pageY - web.offsetHeight / 2}px`;
     });
-
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-    drawSpiderWeb();
 </script>
 </body>
 </html>
