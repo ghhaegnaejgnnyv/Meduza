@@ -21,6 +21,7 @@
         align-items: center;
         justify-content: center;
         color: white;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
     }
 
     #particles-js {
@@ -101,17 +102,6 @@
     .overlay-link:hover {
         text-decoration: underline;
     }
-
-    video#video {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        object-fit: cover;
-        z-index: 1000;
-    }
 </style>
 </head>
 <body>
@@ -125,7 +115,6 @@
     </div>
     <a href="https://www.youtube.com/@funsaransk" target="_blank" class="overlay-link">Пользовательское соглашение</a>
 </div>
-<video id="video" src="media/saransk.mp4" loop></video>
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
     particlesJS("particles-js", {
@@ -182,25 +171,6 @@
         },
         retina_detect: true,
     });
-
-    const acceptButton = document.getElementById("accept-button");
-    const declineButton = document.getElementById("decline-button");
-    const video = document.getElementById("video");
-    const overlay = document.querySelector(".overlay");
-
-    function playVideo() {
-        overlay.style.display = "none"; // Убираем оверлей
-        video.style.display = "block"; // Показываем видео
-        video.play(); // Запускаем видео
-        const docEl = document.documentElement;
-        if (docEl.requestFullscreen) docEl.requestFullscreen();
-        else if (docEl.mozRequestFullScreen) docEl.mozRequestFullScreen();
-        else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
-        else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
-    }
-
-    acceptButton.addEventListener("click", playVideo);
-    declineButton.addEventListener("click", playVideo);
 </script>
 </body>
 </html>
