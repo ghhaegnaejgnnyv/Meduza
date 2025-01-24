@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head> 
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">  
 <title>Название сайта сверху</title>
@@ -22,49 +22,33 @@
     body {
         margin: 0;
         font-family: "Inter", sans-serif;
+    }
+
+    /* Обновленный фон */
+    body {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
         overflow: hidden;
     }
 
-    .overlay, .scare {
+    .overlay {
         position: fixed;
         top: 0;
         left: 0;
         height: 100vh;
         width: 100vw;
-    }
-
-    .overlay {
         z-index: 2;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #ece9e6, #ffffff);
-        padding: 24px;
-        animation: fadeIn 1.5s ease;
-    }
-
-    .overlay[hidden] {
-        display: none;
-    }
-
-    .overlay-body {
-        max-width: 512px;
-        text-align: center;
+        background-color: rgba(0, 0, 0, 0.7);
     }
 
     p.overlay-title {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 900;
-        color: #4b0082;
-        margin-bottom: 16px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    p.overlay-description {
-        font-size: 18px;
-        font-weight: 400;
-        color: rgba(0, 0, 0, 0.7);
-        line-height: 1.5;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         margin-bottom: 16px;
     }
 
@@ -72,87 +56,67 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        height: 48px;
+        height: 50px;
         padding: 0 24px;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 500;
-        line-height: 1;
-        border-radius: 24px;
+        border-radius: 25px;
         margin: 8px;
         cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .overlay-button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s, color 0.3s;
     }
 
     #accept-button {
-        background-color: #845ec2;
+        background-color: #2575fc;
         color: white;
         border: none;
     }
 
+    #accept-button:hover {
+        background-color: #1b5ac2;
+    }
+
     #decline-button {
-        color: #845ec2;
-        border: 2px solid #845ec2;
-        background: white;
+        background-color: transparent;
+        color: #2575fc;
+        border: 2px solid #2575fc;
+    }
+
+    #decline-button:hover {
+        background-color: #2575fc;
+        color: white;
+    }
+
+    p.overlay-description {
+        font-size: 18px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 24px;
     }
 
     a.overlay-link {
-        display: inline-block;
-        text-decoration: none;
         font-size: 16px;
         font-weight: 500;
-        color: #4b0082;
-        margin-top: 16px;
-        position: relative;
-        transition: color 0.3s;
+        color: #ff7eb3;
+        text-decoration: none;
     }
 
     a.overlay-link:hover {
-        color: #845ec2;
+        text-decoration: underline;
     }
 
-    a.overlay-link::before {
-        content: "";
-        position: absolute;
-        bottom: -4px;
+    .scare video {
+        position: fixed;
+        top: 0;
         left: 0;
-        height: 2px;
-        width: 100%;
-        background-color: #845ec2;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s;
-    }
-
-    a.overlay-link:hover::before {
-        transform: scaleX(1);
-    }
-
-    .scare {
-        z-index: 1;
-    }
-
-    video#video {
         height: 100%;
         width: 100%;
         object-fit: cover;
+        z-index: 1;
     }
 
-    video#video::-webkit-media-controls-enclosure {
-        display: none !important;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
+    .scare {
+        z-index: 0;
     }
 </style>
 </head>
@@ -177,11 +141,7 @@
     const declineButton = document.getElementById("decline-button");
     const acceptButton = document.getElementById("accept-button");
 
-    let hasClicked;
-
-    window.onbeforeunload = function () {
-        if (hasClicked) return true;
-    };
+    let hasClicked = false;
 
     function buttonClick(event) {
         event.preventDefault();
@@ -202,7 +162,6 @@
 
     acceptButton.addEventListener("click", buttonClick);
     declineButton.addEventListener("click", buttonClick);
-    video.addEventListener("click", videoClick);
 </script>
 </body>
 </html>
