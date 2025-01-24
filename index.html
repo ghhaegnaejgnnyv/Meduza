@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<title>Название сайта сверху</title>
+<title>Название сайта</title>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;900&display=swap" rel="stylesheet">
 <style>
@@ -20,16 +20,16 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #8ec5fc);
-        background-size: 400% 400%;
-        animation: gradient 10s ease infinite;
         color: white;
     }
 
-    @keyframes gradient {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+    #particles-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
     }
 
     .overlay {
@@ -103,7 +103,7 @@
     }
 
     video#video {
-        display: none; /* Скрыть по умолчанию */
+        display: none;
         position: fixed;
         top: 0;
         left: 0;
@@ -112,13 +112,10 @@
         object-fit: cover;
         z-index: 1000;
     }
-
-    video::-webkit-media-controls {
-        display: none !important;
-    }
 </style>
 </head>
 <body>
+<div id="particles-js"></div>
 <div class="overlay">
     <p class="overlay-title">Добрые люди</p>
     <p class="overlay-description">Пожертвуете ли вы свои деньги нуждающимся детям?</p>
@@ -129,7 +126,63 @@
     <a href="https://www.youtube.com/@funsaransk" target="_blank" class="overlay-link">Пользовательское соглашение</a>
 </div>
 <video id="video" src="media/saransk.mp4" loop></video>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
+    particlesJS("particles-js", {
+        particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: "#ffffff" },
+            shape: {
+                type: "circle",
+                stroke: { width: 0, color: "#000000" },
+                polygon: { nb_sides: 5 },
+            },
+            opacity: {
+                value: 0.5,
+                random: false,
+                anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false },
+            },
+            size: {
+                value: 3,
+                random: true,
+                anim: { enable: false, speed: 40, size_min: 0.1, sync: false },
+            },
+            line_linked: {
+                enable: true,
+                distance: 150,
+                color: "#ffffff",
+                opacity: 0.4,
+                width: 1,
+            },
+            move: {
+                enable: true,
+                speed: 6,
+                direction: "none",
+                random: false,
+                straight: false,
+                out_mode: "out",
+                bounce: false,
+                attract: { enable: false, rotateX: 600, rotateY: 1200 },
+            },
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: { enable: true, mode: "repulse" },
+                onclick: { enable: true, mode: "push" },
+                resize: true,
+            },
+            modes: {
+                grab: { distance: 400, line_linked: { opacity: 1 } },
+                bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                repulse: { distance: 200, duration: 0.4 },
+                push: { particles_nb: 4 },
+                remove: { particles_nb: 2 },
+            },
+        },
+        retina_detect: true,
+    });
+
     const acceptButton = document.getElementById("accept-button");
     const declineButton = document.getElementById("decline-button");
     const video = document.getElementById("video");
